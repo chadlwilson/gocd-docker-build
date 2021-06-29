@@ -14,9 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Clone GoCD from upstream
-      uses: sudosubin/git-clone-action@v1.0.1
+      uses: actions/checkout@v2
       with:
-        repository: gocd/gocd.git
+        repository: gocd/gocd
         ref: v21.2.0
         path: gocd-upstream
     - name: Set up JDK 15
