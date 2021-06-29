@@ -38,6 +38,7 @@ jobs:
       run: ./gradlew docker:gocd-server:assemble -PdockerBuildLocalZip
       working-directory: gocd-upstream
     - run: ./gradlew --stop
+      working-directory: gocd-upstream
       if: ${{ always() }}
       continue-on-error: true
       
