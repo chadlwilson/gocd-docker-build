@@ -9,7 +9,7 @@ function download_server_zip() {
   gocd_target_download_url="https://download.gocd.org/binaries/$(jq -r '.go_full_version' < target.json)/$(jq -r '.generic.server.file' < target.json)"
 
   curl -fsSLO "${gocd_target_download_url}"
-  gocd_target_server_zip=$(greadlink -f "$(find . -name '*.zip' -print)")
+  gocd_target_server_zip=$(readlink -f "$(find . -name '*.zip' -print)")
   echo "$(jq -r '.generic.server.sha256sum' < target.json) ${gocd_target_server_zip}" | sha256sum -c
 }
 
