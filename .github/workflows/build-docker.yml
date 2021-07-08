@@ -8,9 +8,9 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    env:
+      TARGET_GOCD_VERSION: 21.2.0
     steps:
     - name: Clone gocd-docker-build
       uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: chadlwilson/gocd
-        ref: release-21.2.0
+        ref: release-${{ env.TARGET_GOCD_VERSION }}
         path: gocd-upstream
     - name: Set up JDK 15
       uses: actions/setup-java@v2
@@ -30,12 +30,12 @@ jobs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-${{ env.TARGET_GOCD_VERSION }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
     - id: gradle-docker-server
       name: Build with Gradle
-      run: ./gradlew docker:gocd-server:assemble -PdockerBuildLocalZip
+      run: ../build-docker.sh
       working-directory: gocd-upstream
     - run: ./gradlew --stop
       working-directory: gocd-upstream
